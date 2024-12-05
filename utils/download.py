@@ -1,9 +1,6 @@
 import requests
 from pathlib import Path
-
-session_cookies = {
-    2024: "53616c7465645f5f90610c22c367a30995b053f7543e3cee5f053dc5afcef9e4233d443bbc70013928880645f4767e419ddfd602ec495c07cc8ec10560149362",
-}
+from .session_cookies import session_cookies
 
 def download(day, year=2024):
     # URL of the text document
@@ -23,6 +20,7 @@ def download(day, year=2024):
         # Save the content to a file
         Path(f"day{day}.txt").write_text(response.text)
         print(f"{url} downloaded")
+        print("Line1:", response.text.splitlines()[0])
     else:
         print(f"Failed to download {url}. Status code: {response.status_code}")
 

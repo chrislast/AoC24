@@ -2,8 +2,7 @@
 
 from utils import get_input, show
 
-INPUT = get_input(2,2024)
-LINES = INPUT.splitlines()
+LINES = get_input(2,2024).splitlines()
 
 def p1():
     def safe(vals):

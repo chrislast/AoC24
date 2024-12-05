@@ -5,6 +5,7 @@ import time
 from types import SimpleNamespace
 import random
 import traceback
+import pdb
 
 from PIL import Image
 import numpy as np
@@ -80,6 +81,13 @@ class Map:
         """get *integer* value
         cast it back to char or bool if needed"""
         return self.img.getpixel(pos)
+
+    def nparray(self):
+        """Return image data as a numpy array of integers"""
+        data = self.img.getdata() # 1-d data list
+        arr = np.array(data)      # 1-d data numpy array
+        arr = arr.reshape(self.img.height,self.img.width)
+        return arr
 
     def resized(self):
         if not self.output_size:
@@ -158,6 +166,8 @@ def show(*funcs, compact=False):
         except Exception as exc:
             # catch any exception and replace it with a stacktrace
             ret = "    " + (''.join(traceback.format_exception(exc))).replace("\n","\n        ")
+            print(ret)
+            pdb.post_mortem(sys.exc_info()[2])
         elapsed = time.time()-t1
         if ret is None:
             TESTS.SKIPPED += 1
