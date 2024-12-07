@@ -4,23 +4,29 @@ from utils import get_input, show
 DAY = 5
 INPUT = get_input(DAY)
 
-# parse input
-rules = {}
-PARSING_RULES = True
-list_of_updates = []
-for line in INPUT.splitlines():
-    if PARSING_RULES:
-        if line == "":
-            PARSING_RULES = False
-            continue
-        a,b = [int(_) for _ in line.split("|")]
-        if a not in rules:
-            rules[a] = set()
-        rules[a].add(b)
-        continue
+rules = {}            # dictionary of sets - key must come before all items in set
+list_of_updates = []  # puzzle inputs - list of lists of page updates
 
-    # printing
-    list_of_updates.append([int(_) for _ in line.split(",")])
+def parse():
+    parsing_rules = True
+    for line in INPUT.splitlines():
+        if parsing_rules:
+            if line == "":
+                parsing_rules = False
+                continue
+            pre,post = [int(_) for _ in line.split("|")]
+
+            if pre not in rules:
+                rules[pre] = set()
+
+            # add a rule
+            rules[pre].add(post)
+            continue
+
+        # add list of updates
+        list_of_updates.append([int(_) for _ in line.split(",")])
+
+parse()
 
 def p1():
     """ Day 5: Part 1 """
