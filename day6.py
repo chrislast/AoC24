@@ -18,9 +18,8 @@ GUARD = int(GUARD[1][0]), int(GUARD[0][0])
 TURN_RIGHT = [(0,-1), (1,0), (0,1), (-1,0)]
 X = ord("X")
 PATH = []
-GIF1 = [MAP.img.copy()]
 
-print(GUARD)
+GIF1 = [MAP.img.copy()]
 def p1():
     """ Day 6: Part 1 """
     x,y = GUARD

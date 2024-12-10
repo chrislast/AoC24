@@ -6,6 +6,7 @@ from utils import get_input, show, Map
 DAY = X
 INPUT = get_input(DAY)
 #MAP = Map(INPUT.splitlines())
+#H,W = MAP.img.height, MAP.img.width
 #ARR = MAP.nparray()
 
 def parse(line):
