@@ -6,7 +6,7 @@ from collections import deque
 
 DAY = 9
 INPUT = get_input(DAY).strip()
-INPxUT = "2333133121414131402"
+IxNPUT = "2333133121414131402"
 #MAP = Map(INPUT.splitlines())
 #ARR = MAP.nparray()
 
@@ -57,12 +57,44 @@ def p1():
 
 def p2():
     """ Day X: Part 2 """
+    disk = DISK.copy()
+    # get max block id
+    startid = max(set(disk)-{None})
+    maxlen = 9
+    for blkid in range(startid,0,-1):
+        blkidx = disk.index(blkid)
+        blklen = disk[blkidx:blkidx+10].count(blkid)
+        if blklen > maxlen:
+            # we've already failed to find space for this length
+            # so just get next block
+            continue
+        gapidx = disk.index(None)
+        if gapidx > blkidx:
+            # if first space is after current block then no more moves are possible
+            break
+        while True:
+            if disk[gapidx:gapidx+blklen] == [None]*blklen:
+                # found a space so swap
+                disk[gapidx:gapidx+blklen], disk[blkidx:blkidx+blklen] = \
+                disk[blkidx:blkidx+blklen], disk[gapidx:gapidx+blklen]
+                break
+            while disk[gapidx] is None:
+                gapidx += 1
+            gapidx = disk.index(None, gapidx)
+            if gapidx > blkidx:
+                # if space is after this block then we can't move this block
+                # and we don't need to try other blocks of same length in future
+                maxlen = blklen - 1
+                break
+
     acc = 0
+    for i, v in enumerate(disk):
+        acc += i*v if v is not None else 0
     return acc
 
 # expected results
 p1.expects = 6471961544878
-p2.expects = 0
+p2.expects = 6511178035564
 
 # run functions
 show(p1,p2)
